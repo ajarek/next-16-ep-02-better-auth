@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Home } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { signUp } from "@/lib/auth-client"
 
 const formSchema = z
@@ -49,6 +50,8 @@ const SignupPage = () => {
     },
   })
 
+  const router = useRouter()
+
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
       const response = await signUp.email({
@@ -56,24 +59,21 @@ const SignupPage = () => {
         password: data.password,
         name: data.name,
       })
-      if (response) {
-        toast("You submitted the following values:", {
-          description: (
-            <pre className='text-primary mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
-              <code>{JSON.stringify(data, null, 2)}</code>
-            </pre>
-          ),
-          position: "bottom-right",
-          classNames: {
-            content: "flex flex-col gap-2",
-          },
-          style: {
-            "--border-radius": "calc(var(--radius)  + 4px)",
-          } as React.CSSProperties,
-        })
+
+      // check for an error shape from the auth client
+      const maybeError = (response as unknown as { error?: { message?: string } }).error
+      if (maybeError) {
+        toast.error(maybeError.message || "Sign up failed")
+        return
       }
-    } catch (error) {
-      toast.error("Failed to sign up" + error)
+
+      // success — notify and redirect to dashboard
+      toast.success("Account created — redirecting to your dashboard...")
+      form.reset()
+      router.push("/dashboard")
+    } catch (err) {
+      console.error(err)
+      toast.error("Unexpected error. See console.")
     }
   }
 

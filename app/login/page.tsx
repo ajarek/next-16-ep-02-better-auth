@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Home } from "lucide-react"
 import { signIn } from "@/lib/auth-client"
-
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   email: z.email("Must be a valid email address"),
@@ -34,6 +34,7 @@ const formSchema = z.object({
 })
 
 const LoginPage= ()=> {
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,6 +65,8 @@ const LoginPage= ()=> {
         "--border-radius": "calc(var(--radius)  + 4px)",
       } as React.CSSProperties,
     })
+       form.reset()
+       router.push('/dashboard')
       }
     } catch (error) {
       toast.error("Failed to log in" + error)
