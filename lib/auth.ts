@@ -2,8 +2,11 @@ import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
 // If your Prisma file is located elsewhere, you can change the path
 import { PrismaClient } from "./generated/prisma/client"
+import { FROM_EMAIL, resend } from "./resend";
+import { getResetPasswordEmailHtml } from "./email-template";
 
 const prisma = new PrismaClient()
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql", // or "mysql", "postgresql", ...etc
@@ -11,7 +14,33 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
-      console.log("Reset password url for", user.email, ":", url)
+     try {
+          const emailHtml = getResetPasswordEmailHtml(user.email, url)
+
+        // Send the email using Resend
+        const { data, error } = await resend.emails.send({
+          from: FROM_EMAIL,
+          to: user.email,
+          subject: "Reset Your Password",
+          html: emailHtml,
+        });
+        
+        if (error) {
+          console.error("Failed to send reset password email:", error)
+          throw new Error("Failed to send reset password email")
+        }
+        console.log("Reset password email sent successfully to:", user.email)
+        console.log("Email ID:", data?.id)
+
+        // In development, also log the URL for easy testing
+        if (process.env.NODE_ENV === "development") {
+          console.log("Reset URL (dev only):", url)
+        }
+
+        } catch(error) {
+        console.error("Error in sendResetPassword:", error)
+        throw error
+        }
     },
   },
 })
