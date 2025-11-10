@@ -114,10 +114,11 @@ const ForgotPasswordPage = () => {
               type='button'
               variant='outline'
               onClick={() => form.reset()}
+              className="cursor-pointer"
             >
               Reset
             </Button>
-            <Button type='submit' form='form-rhf-demo'>
+            <Button type='submit' form='form-rhf-demo' className="cursor-pointer">
               Submit
             </Button>
           </Field>

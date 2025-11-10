@@ -58,7 +58,7 @@ const Dashboard=()=> {
           <Button
             onClick={handleSignOut}
             variant="destructive"
-            className="w-full hover:scale-105 transition-transform mt-4"
+            className="w-full hover:scale-105 transition-transform mt-4 cursor-pointer"
           >
             Sign Out
           </Button>
