@@ -74,5 +74,5 @@ export function getResetPasswordEmailHtml(
       </table>
     </body>
     </html>
-  `.trim();
+  `.trim()
 }

@@ -37,8 +37,11 @@ const formSchema = z
     message: "Passwords must be the same",
   })
 
-const ResetPassword = ({ searchParams }: { searchParams: Promise<{token: string}> }) => {
-
+const ResetPassword = ({
+  searchParams,
+}: {
+  searchParams: Promise<{ token: string }>
+}) => {
   const { token } = React.use(searchParams)
 
   const router = useRouter()
@@ -72,9 +75,9 @@ const ResetPassword = ({ searchParams }: { searchParams: Promise<{token: string}
           } as React.CSSProperties,
         })
         form.reset()
-         setTimeout(() => {
-          router.push("/login");
-        }, 2000);
+        setTimeout(() => {
+          router.push("/login")
+        }, 2000)
       }
     } catch (error) {
       toast.error("Failed to log in" + error)
@@ -88,9 +91,7 @@ const ResetPassword = ({ searchParams }: { searchParams: Promise<{token: string}
         </Link>
         <CardHeader>
           <CardTitle>Reset Password</CardTitle>
-          <CardDescription>
-            Enter your new password
-          </CardDescription>
+          <CardDescription>Enter your new password</CardDescription>
         </CardHeader>
         <CardContent>
           <form id='form-rhf-demo' onSubmit={form.handleSubmit(onSubmit)}>
@@ -122,7 +123,9 @@ const ResetPassword = ({ searchParams }: { searchParams: Promise<{token: string}
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor='password'>Confirm New Password</FieldLabel>
+                    <FieldLabel htmlFor='password'>
+                      Confirm New Password
+                    </FieldLabel>
                     <Input
                       {...field}
                       id='confirmPassword'
@@ -150,7 +153,7 @@ const ResetPassword = ({ searchParams }: { searchParams: Promise<{token: string}
               className='cursor-pointer'
               disabled={!token}
             >
-             Reset
+              Reset
             </Button>
             <Button
               type='submit'
@@ -162,14 +165,10 @@ const ResetPassword = ({ searchParams }: { searchParams: Promise<{token: string}
           </Field>
           <p>
             {" "}
-            <Link
-              className='text-blue-700 hover:underline'
-              href='/login'
-            >
+            <Link className='text-blue-700 hover:underline' href='/login'>
               Back to Login
             </Link>
           </p>
-          
         </CardFooter>
       </Card>
     </div>

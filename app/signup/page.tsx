@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -61,7 +60,9 @@ const SignupPage = () => {
       })
 
       // check for an error shape from the auth client
-      const maybeError = (response as unknown as { error?: { message?: string } }).error
+      const maybeError = (
+        response as unknown as { error?: { message?: string } }
+      ).error
       if (maybeError) {
         toast.error(maybeError.message || "Sign up failed")
         return
@@ -181,11 +182,15 @@ const SignupPage = () => {
               type='button'
               variant='outline'
               onClick={() => form.reset()}
-              className="cursor-pointer"
+              className='cursor-pointer'
             >
               Reset
             </Button>
-            <Button type='submit' form='form-rhf-demo' className="cursor-pointer">
+            <Button
+              type='submit'
+              form='form-rhf-demo'
+              className='cursor-pointer'
+            >
               Submit
             </Button>
           </Field>

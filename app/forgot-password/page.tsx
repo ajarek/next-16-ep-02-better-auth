@@ -26,7 +26,6 @@ import Link from "next/link"
 import { Home } from "lucide-react"
 import { forgetPassword } from "@/lib/auth-client"
 
-
 const formSchema = z.object({
   email: z.email("Must be a valid email address"),
 })
@@ -45,8 +44,8 @@ const ForgotPasswordPage = () => {
         email: data.email,
         redirectTo: "/reset-password",
       })
-      
-      if (response.error ) {
+
+      if (response.error) {
         toast.error("Failed to send reset email" + response.error.message)
       } else {
         toast("You have requested a password reset:", {
@@ -114,11 +113,15 @@ const ForgotPasswordPage = () => {
               type='button'
               variant='outline'
               onClick={() => form.reset()}
-              className="cursor-pointer"
+              className='cursor-pointer'
             >
               Reset
             </Button>
-            <Button type='submit' form='form-rhf-demo' className="cursor-pointer">
+            <Button
+              type='submit'
+              form='form-rhf-demo'
+              className='cursor-pointer'
+            >
               Submit
             </Button>
           </Field>
